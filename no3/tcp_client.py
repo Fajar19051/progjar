@@ -67,7 +67,7 @@ def send_command(command_str,is_secure=True):
         logging.warning(f"error during data receiving {str(ee)}")
         return False
 
-def getdatapemain(nomor=0,is_secure=False):
+def getdatapemain(nomor=0,is_secure=True):
     cmd=f"getdatapemain {nomor}\r\n\r\n"
     hasil = send_command(cmd,is_secure=is_secure)
     if (hasil):
@@ -77,7 +77,7 @@ def getdatapemain(nomor=0,is_secure=False):
     print("==> Got data: " + str(hasil))
     return hasil
 
-def lihatversi(is_secure=False):
+def lihatversi(is_secure=True):
     cmd=f"versi \r\n\r\n"
     hasil = send_command(cmd,is_secure=is_secure)
     return hasil
@@ -95,7 +95,7 @@ if __name__=='__main__':
         request_sent = 0
         for x in range(i):
             print("Sending request number {} of {} requests".format(x+1, i))
-            threads[x] = threading.Thread(target=getdatapemain, args=(random.randint(1, 11),False))
+            threads[x] = threading.Thread(target=getdatapemain, args=(random.randint(1, 11),True))
             threads[x].start()
             request_sent += 1
 

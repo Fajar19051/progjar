@@ -97,7 +97,7 @@ def serialisasi(a):
     serialized =  json.dumps(a)
     return serialized
 
-def run_server(server_address,is_secure=False):
+def run_server(server_address,is_secure=True):
     # ------------------------------ SECURE SOCKET INITIALIZATION ----
     socket_context = None
     if is_secure == True:
