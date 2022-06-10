@@ -27,7 +27,7 @@ services:
       - ./script:/script
     command: "sh /script/run.sh"
     ports:
-      - 8889:8888
+      - 9002:8888
     networks:
       progjar-network:
         ipv4_address: 172.16.16.102
