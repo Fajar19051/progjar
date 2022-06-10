@@ -6,7 +6,7 @@ import time
 import os
 
 
-server_address=('0.0.0.0',12000)
+server_address=('172.16.16.101',12000)
 
 def send_command(command_str=""):
     global server_address
