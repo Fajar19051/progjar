@@ -2,8 +2,11 @@ import socket
 import json
 import base64
 import logging
+import time
+import os
 
-server_address=('0.0.0.0',7777)
+
+server_address=('0.0.0.0',12000)
 
 def send_command(command_str=""):
     global server_address
@@ -30,6 +33,7 @@ def send_command(command_str=""):
         # to be able to use the data_received as a dict, need to load it using json.loads()
         hasil = json.loads(data_received)
         logging.warning("data received from server:")
+        print(hasil)
         return hasil
     except:
         logging.warning("error during data receiving")
@@ -37,7 +41,7 @@ def send_command(command_str=""):
 
 
 def remote_list():
-    command_str=f"LIST"
+    command_str=f"LIST\n"
     hasil = send_command(command_str)
     if (hasil['status']=='OK'):
         print("daftar file : ")
@@ -49,7 +53,7 @@ def remote_list():
         return False
 
 def remote_get(filename=""):
-    command_str=f"GET {filename}"
+    command_str=f"GET {filename}\n"
     hasil = send_command(command_str)
     if (hasil['status']=='OK'):
         #proses file dalam bentuk base64 ke bentuk bytes
@@ -63,9 +67,50 @@ def remote_get(filename=""):
         print("Gagal")
         return False
 
+    
+def remote_upload(filename=""):
+    simpan = open(filename, 'rb')
+   
+    data = base64.b64encode(simpan.read())
+    simpan.close()
+    command_str=f"upload {filename} {data}\n"
+    hasil = send_command(command_str)
+    if (hasil['status']=='OK'):
+        os.chdir("../")
+        history = open("history.txt", 'a')
+        localtime = time.asctime( time.localtime(time.time()) )
+        isi = f": file {filename} diupload \n"
+        history.write(localtime)
+        history.write(isi)
+        history.close()
+        print("Berhasil")
+        return True
+    else:
+        print("Gagal")
+        return False
+    
+def remote_delete(filename=""):
+    command_str=f"delete {filename}\n"
+    hasil = send_command(command_str)
+    if (hasil['status']=='OK'):
+        os.chdir("../")
+        history = open("history.txt", 'a')
+        localtime = time.asctime( time.localtime(time.time()) )
+        isi = f": file {filename} didelete \n"
+        history.write(localtime)
+        history.write(isi)
+        history.close()
+        print("Berhasil")
+        return True
+    else:
+        print("Gagal")
+        return False
+    
 
 if __name__=='__main__':
-    server_address=('172.16.16.101',6666)
     remote_list()
-    remote_get('donalbebek.jpg')
-
+    os.chdir("./file_from_client")
+    remote_upload('puisi.txt')
+    #remote_upload('centang.png')
+    #remote_delete('donalbebek.txt')
+    #remote_get('pokijan.jpg')
