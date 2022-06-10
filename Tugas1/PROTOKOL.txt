@@ -39,3 +39,30 @@ GET
   - status: ERROR
   - data: pesan kesalahan
 
+
+UPLOAD
+* TUJUAN: untuk mengirimkan isi file dengan menyebutkan nama file dan isi file dalam parameter
+* PARAMETER:
+  - PARAMETER1 : nama file
+  - PARAMETER2 : isi file (dalam bentuk base64)
+* RESULT:
+- BERHASIL:
+  - status: OK
+  - data : upload berhasil
+- GAGAL:
+  - status: ERROR
+  - data: pesan kesalahan
+
+
+DELETE
+* TUJUAN: untuk menghapus file dengan menyebutkan nama file dalam parameter
+* PARAMETER:
+  - PARAMETER1 : nama file
+* RESULT:
+- BERHASIL:
+  - status: OK
+  - data : file deleted successfully
+- GAGAL:
+  - status: ERROR
+  - data: pesan kesalahan
+
