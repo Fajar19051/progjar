@@ -13,13 +13,13 @@ class FileInterface:
             filelist = glob('*.*')
             return dict(status='OK',data=filelist)
         except Exception as e:
-            # print(e)
             return dict(status='ERROR',data=str(e))
 
-    def get(self,filename=''):
-        if(filename==''):
-            return None
+    def get(self,param):
         try:
+            filename = param[0]
+            if (filename == ''):
+                return None
             fp = open(f"{filename}",'rb')
             isifile = base64.b64encode(fp.read()).decode()
             return dict(status='OK',data_namafile=filename,data_file=isifile)
